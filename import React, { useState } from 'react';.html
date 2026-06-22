@@ -1,0 +1,109 @@
+import React, { useState } from 'react';
+import './App.css'; // Jika Anda memiliki file CSS terpisah
+
+function TokoLos() {
+  // 1. Data Katalog Produk (Disatukan di sini)
+  const [products] = useState([
+    {
+      id: 1,
+      name: "Sepatu Outdoor FiveFingers Vibram Premium Grip Ergonomis",
+      price: "Rp850.000",
+      // Path langsung mengarah ke folder public/images/
+      image: "/images/sepatu.jpg" 
+    },
+    {
+      id: 2,
+      name: "Blouse Tunik Muslimah Zalfa Elegan Maroon Premium Kain Halus",
+      price: "Rp175.000",
+      image: "/images/tunik.jpg"
+    },
+    {
+      id: 3,
+      name: "Tas Ransel Monogram Luxury Edition Leather Classic",
+      price: "Rp2.400.000",
+      image: "/images/tas.jpg"
+    }
+  ]);
+
+  const [search, setSearch] = useState('sepatu');
+
+  return (
+    <div style={{ backgroundColor: '#f5f5f5', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
+      
+      {/* NAVBAR */}
+      <header style={{ backgroundColor: '#ff4d29', padding: '15px 50px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'white' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ fontSize: '24px', fontWeight: 'bold' }}>Toko Los</span>
+        </div>
+        
+        {/* Search Bar */}
+        <div style={{ display: 'flex', flexGrow: 1, maxWidth: '600px', margin: '0 20px' }}>
+          <input 
+            type="text" 
+            value={search} 
+            onChange={(e) => setSearch(e.target.value)}
+            style={{ width: '100%', padding: '10px', border: 'none', borderRadius: '4px 0 0 4px', outline: 'none' }}
+          />
+          <button style={{ backgroundColor: '#e03a16', color: 'white', border: 'none', padding: '0 20px', borderRadius: '0 4px 4px 0', cursor: 'pointer' }}>
+            Cari
+          </button>
+        </div>
+
+        {/* Menu Kanan */}
+        <div style={{ display: 'flex', gap: '20px', fontSize: '14px' }}>
+          <span>👤 Login</span>
+          <span>🛒 Keranjang</span>
+          <span>📦 Checkout</span>
+        </div>
+      </header>
+
+      {/* ALERT BANNER */}
+      <div style={{ backgroundColor: '#ff5733', color: 'white', textAlign: 'center', padding: '15px', fontWeight: '500' }}>
+        Sistem Pemanggilan Gambar Statis Lokal Sukses Diperbaiki
+      </div>
+
+      {/* KONTEN UTAMA */}
+      <main style={{ padding: '40px 50px' }}>
+        <h3 style={{ color: '#666', letterSpacing: '1px', marginBottom: '20px' }}>
+          REKOMENDASI KATALOG BARU HARI INI
+        </h3>
+
+        {/* Grid Produk */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          {products.map((product) => (
+            <div key={product.id} style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              
+              {/* BAGIAN GAMBAR YANG DIPERBAIKI */}
+              <div style={{ width: '100%', height: '250px', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '15px', overflow: 'hidden' }}>
+                <img 
+                  src={product.image} 
+                  alt={product.name} 
+                  style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                  onError={(e) => {
+                    // Mencegah looping error & memberikan fallback teks jika path salah
+                    e.target.onerror = null; 
+                    e.target.src = "https://via.placeholder.com/250?text=Gambar+Tidak+Ditemukan";
+                  }}
+                />
+              </div>
+
+              {/* Detail Produk */}
+              <div>
+                <h4 style={{ fontSize: '14px', fontWeight: 'bold', color: '#333', lineHeight: '1.4', margin: '0 0 10px 0', minHeight: '40px' }}>
+                  {product.name}
+                </h4>
+                <p style={{ color: '#ff4d29', fontWeight: 'bold', fontSize: '16px', margin: 0 }}>
+                  {product.price}
+                </p>
+              </div>
+
+            </div>
+          ))}
+        </div>
+      </main>
+
+    </div>
+  );
+}
+
+export default TokoLos;
